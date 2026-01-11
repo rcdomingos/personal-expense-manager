@@ -186,7 +186,7 @@ export const DashboardPage: React.FC = () => {
                 <tr key={t.id} className="text-sm text-slate-600">
                   <td className="py-3">{new Date(t.date).toLocaleDateString()}</td>
                   <td className="py-3 font-medium text-slate-800">
-                    {t.transactionType === TransactionType.INCOME ? 'Credit' : 'Debit'}
+                    {t.description}
                   </td>
                   <td className="py-3">
                     <Badge>{t.categoryName}</Badge>

@@ -14,6 +14,7 @@ export const TransactionsPage: React.FC = () => {
   
   // Form State
   const [type, setType] = useState<TransactionType>(TransactionType.EXPENSE);
+  const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [categoryId, setCategoryId] = useState('');
@@ -34,10 +35,11 @@ export const TransactionsPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!amount || !categoryId || !paymentMethodId) return;
+    if (!amount || !categoryId || !paymentMethodId || !description) return;
 
     transactionService.addTransaction({
       transactionType: type,
+      description,
       amount: parseFloat(amount),
       date,
       categoryId,
@@ -47,6 +49,7 @@ export const TransactionsPage: React.FC = () => {
 
     // Reset Form
     setAmount('');
+    setDescription('');
     setCategoryId('');
     setPaymentMethodId('');
     setShowForm(false);
@@ -77,6 +80,13 @@ export const TransactionsPage: React.FC = () => {
                 { value: TransactionType.EXPENSE, label: 'Expense' },
                 { value: TransactionType.INCOME, label: 'Income' }
               ]}
+            />
+            <Input
+              label="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="e.g. Weekly Groceries"
+              required
             />
             <Input
               label="Amount"
@@ -150,6 +160,7 @@ export const TransactionsPage: React.FC = () => {
             <thead>
               <tr className="text-sm font-semibold text-slate-500 border-b bg-slate-50">
                 <th className="p-4">Date</th>
+                <th className="p-4">Description</th>
                 <th className="p-4">Category</th>
                 <th className="p-4">Method</th>
                 <th className="p-4 text-right">Amount</th>
@@ -160,6 +171,9 @@ export const TransactionsPage: React.FC = () => {
                 <tr key={t.id} className="hover:bg-slate-50 transition-colors">
                   <td className="p-4 text-slate-600">
                     {new Date(t.date).toLocaleDateString()}
+                  </td>
+                  <td className="p-4 text-slate-800 font-medium">
+                    {t.description}
                   </td>
                   <td className="p-4">
                     <Badge variant={t.transactionType === TransactionType.INCOME ? 'success' : 'danger'}>
@@ -177,7 +191,7 @@ export const TransactionsPage: React.FC = () => {
               ))}
               {transactions.length === 0 && (
                 <tr>
-                  <td colSpan={4} className="p-10 text-center text-slate-400 italic">No history yet. Start by adding your first transaction!</td>
+                  <td colSpan={5} className="p-10 text-center text-slate-400 italic">No history yet. Start by adding your first transaction!</td>
                 </tr>
               )}
             </tbody>
