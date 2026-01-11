@@ -1,0 +1,5 @@
+{
+  "name": "Personal Expense Manager",
+  "description": "A robust financial management tool for tracking bank accounts, credit cards, and categorized transactions with real-time balance updates.",
+  "requestFramePermissions": []
+}
