@@ -23,5 +23,13 @@ export const categoryService = {
       userId: user.id,
     };
     DatabaseService.insert('categories', newCategory);
+  },
+
+  updateCategory: (id: string, data: Partial<Omit<Category, 'id' | 'userId'>>): void => {
+    DatabaseService.update('categories', id, data);
+  },
+
+  deleteCategory: (id: string): void => {
+    DatabaseService.delete('categories', id);
   }
 };

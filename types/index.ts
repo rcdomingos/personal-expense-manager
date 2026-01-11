@@ -16,6 +16,12 @@ export interface User {
   passwordHash: string;
 }
 
+export interface Classification {
+  id: string;
+  userId: string;
+  name: string;
+}
+
 export interface BankAccount {
   id: string;
   userId: string;
@@ -40,6 +46,7 @@ export interface CreditCard {
 export interface Category {
   id: string;
   userId: string;
+  classificationId: string;
   name: string;
   type: TransactionType;
 }
@@ -57,5 +64,6 @@ export interface Transaction {
 
 export interface TransactionWithDetails extends Transaction {
   categoryName?: string;
+  classificationName?: string;
   paymentMethodName?: string;
 }

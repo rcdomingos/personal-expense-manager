@@ -7,6 +7,7 @@ import { TransactionsPage } from './features/transactions/pages/TransactionsPage
 import { AccountsPage } from './features/accounts/pages/AccountsPage';
 import { CardsPage } from './features/cards/pages/CardsPage';
 import { CategoriesPage } from './features/categories/pages/CategoriesPage';
+import { ClassificationsPage } from './features/categories/pages/ClassificationsPage';
 import { authService } from './services/authService';
 import { User } from './types';
 
@@ -42,6 +43,8 @@ const App: React.FC = () => {
         return <CardsPage key={user?.id} />;
       case 'categories':
         return <CategoriesPage key={user?.id} />;
+      case 'classifications':
+        return <ClassificationsPage key={user?.id} />;
       default:
         return <DashboardPage key={user?.id} />;
     }

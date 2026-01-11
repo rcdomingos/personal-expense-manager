@@ -1,7 +1,7 @@
 
 import bcrypt from 'bcryptjs';
 import { DatabaseService } from './db';
-import { User, TransactionType } from '../types';
+import { User, TransactionType, Classification } from '../types';
 
 const SESSION_KEY = 'pem_session';
 
@@ -22,21 +22,44 @@ export const authService = {
 
     DatabaseService.insert('users', newUser);
     
+    // Seed default classifications
+    const defaultClassifications = [
+      { name: 'Housing' },
+      { name: 'Income Sources' },
+      { name: 'Personal Care' },
+      { name: 'Transportation' },
+      { name: 'Food & Dining' }
+    ];
+
+    const seededClassifications: Record<string, string> = {};
+
+    defaultClassifications.forEach(c => {
+      const id = crypto.randomUUID();
+      DatabaseService.insert('classifications', {
+        id,
+        userId: newUser.id,
+        name: c.name
+      });
+      seededClassifications[c.name] = id;
+    });
+    
     // Seed default categories for new user
     const defaultCategories = [
-      { name: 'Salary', type: TransactionType.INCOME },
-      { name: 'Bonus', type: TransactionType.INCOME },
-      { name: 'Housing', type: TransactionType.EXPENSE },
-      { name: 'Food', type: TransactionType.EXPENSE },
-      { name: 'Transportation', type: TransactionType.EXPENSE },
-      { name: 'Entertainment', type: TransactionType.EXPENSE },
+      { name: 'Salary', type: TransactionType.INCOME, class: 'Income Sources' },
+      { name: 'Bonus', type: TransactionType.INCOME, class: 'Income Sources' },
+      { name: 'Rent', type: TransactionType.EXPENSE, class: 'Housing' },
+      { name: 'Water', type: TransactionType.EXPENSE, class: 'Housing' },
+      { name: 'Fuel', type: TransactionType.EXPENSE, class: 'Transportation' },
+      { name: 'Restaurant', type: TransactionType.EXPENSE, class: 'Food & Dining' },
     ];
 
     defaultCategories.forEach(cat => {
       DatabaseService.insert('categories', {
-        ...cat,
         id: crypto.randomUUID(),
-        userId: newUser.id
+        userId: newUser.id,
+        name: cat.name,
+        type: cat.type,
+        classificationId: seededClassifications[cat.class]
       });
     });
 

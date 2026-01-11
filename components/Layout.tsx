@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LayoutDashboard, ReceiptText, Landmark, CreditCard, Tag, Menu, X, LogOut, User as UserIcon } from 'lucide-react';
+import { LayoutDashboard, ReceiptText, Landmark, CreditCard, Tag, Menu, X, LogOut, User as UserIcon, FolderTree } from 'lucide-react';
 import { authService } from '../services/authService';
 import { User } from '../types';
 
@@ -41,6 +41,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
     { id: 'transactions', label: 'Transactions', icon: ReceiptText },
     { id: 'accounts', label: 'Bank Accounts', icon: Landmark },
     { id: 'cards', label: 'Credit Cards', icon: CreditCard },
+    { id: 'classifications', label: 'Classifications', icon: FolderTree },
     { id: 'categories', label: 'Categories', icon: Tag },
   ];
 
@@ -63,7 +64,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
           <h1 className="text-2xl font-bold text-blue-600">Expensify</h1>
         </div>
         
-        <nav className="flex-1 space-y-2">
+        <nav className="flex-1 space-y-1">
           {navigation.map((item) => (
             <SidebarItem
               key={item.id}

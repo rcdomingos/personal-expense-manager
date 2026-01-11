@@ -1,10 +1,11 @@
 
-import { BankAccount, CreditCard, Category, Transaction, User } from '../types';
+import { BankAccount, CreditCard, Category, Transaction, User, Classification } from '../types';
 
 const STORAGE_KEY = 'personal_expense_manager_db';
 
 interface DBStructure {
   users: User[];
+  classifications: Classification[];
   accounts: BankAccount[];
   cards: CreditCard[];
   categories: Category[];
@@ -14,11 +15,12 @@ interface DBStructure {
 
 const INITIAL_DB: DBStructure = {
   users: [],
+  classifications: [],
   accounts: [],
   cards: [],
   categories: [],
   transactions: [],
-  version: 2,
+  version: 3,
 };
 
 export class DatabaseService {
